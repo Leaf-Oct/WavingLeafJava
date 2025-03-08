@@ -18,16 +18,12 @@ import java.util.ArrayList;
 
 public class FTPServer {
 
-    public static void main(String[] args) {
+    public static void main() {
 //        初始化ftp server
         var server_factory = new FtpServerFactory();
         var user_manager=new PropertiesUserManagerFactory().createUserManager();
         server_factory.setUserManager(user_manager);
         var listener_factory = new ListenerFactory();
-//        读取config yaml
-        var yaml=new Yaml(new Constructor(Config.class, new LoaderOptions()));
-//        cn.leaf.Config config=yaml.load(Main.class.getClassLoader().getResourceAsStream("config.yaml"));
-//        cn.leaf.Config config=yaml.load("config.yaml");
         Config config= null;
         try {
             config = yaml.load(new InputStreamReader(new FileInputStream("config.yaml")));

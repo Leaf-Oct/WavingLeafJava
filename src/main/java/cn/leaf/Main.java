@@ -108,7 +108,7 @@ public class Main extends Application {
                 User user = users.get(newVal);
                 username_field.setText(user.user);
                 password_field.setText(user.password);
-                directory_field.setText(user.path);
+                directory_field.setText(user.home);
                 enable_checkbox.setSelected(user.enable);
                 writable_checkbox.setSelected(user.writable);
             }
@@ -121,6 +121,23 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+        if (args.length > 0) {
+            var firstArg = args[0];
+            if ("--help".equals(firstArg)) {
+                System.out.println("命令行选项：");
+                System.out.println("  --help   显示本帮助信息");
+                System.out.println("  --nogui  以控制台模式运行程序");
+                System.out.println("\n示例：");
+                System.out.println("  java Main --nogui");
+            } else if ("--nogui".equals(firstArg)) {
+//                TODO 以命令行运行
+                Nogui.main();
+            } else {
+                System.out.println("未知参数 '" + firstArg + "'，请输入 --help 查看帮助");
+            }
+        }
+        else {
+            launch(args);
+        }
     }
 }

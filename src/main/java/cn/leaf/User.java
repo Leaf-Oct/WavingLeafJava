@@ -1,7 +1,7 @@
 package cn.leaf;
 
 public class User {
-    public String user, password, path;
+    public String user, password, home;
     public boolean writable, enable;
 
     public boolean isEnable() {
@@ -20,17 +20,23 @@ public class User {
         this.password = password;
     }
 
-    public User(String user, String password, String path, boolean writable, boolean enable) {
+    public String getHome() {
+        return home;
+    }
+
+    public void setHome(String home) {
+        this.home = home;
+    }
+
+    public User(String user, String password, String home, boolean writable, boolean enable) {
         this.user = user;
         this.password = password;
-        this.path = path;
+        this.home = home;
         this.writable = writable;
         this.enable = enable;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+
 
     public void setWritable(boolean writable) {
         this.writable = writable;
@@ -44,9 +50,7 @@ public class User {
         return password;
     }
 
-    public String getPath() {
-        return path;
-    }
+
 
     public boolean isWritable() {
         return writable;

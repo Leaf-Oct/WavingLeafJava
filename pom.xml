@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.ftpserver/ftpserver -->
+        <!--        apache ftp server-->
         <dependency>
             <groupId>org.apache.ftpserver</groupId>
             <artifactId>ftpserver</artifactId>
@@ -27,11 +27,11 @@
             <artifactId>javafx-controls</artifactId>
             <version>21</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+        <!--        读写sqlite数据库的驱动。数据库用于存储用户信息的-->
         <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>2.4</version>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.49.1.0</version>
         </dependency>
 
     </dependencies>
