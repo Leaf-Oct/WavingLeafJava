@@ -18,7 +18,9 @@ import java.util.ArrayList;
 
 public class FTPServer {
 
-    public static void main() {
+    private org.apache.ftpserver.FtpServer server;
+
+    public void init() {
 //        初始化ftp server
         var server_factory = new FtpServerFactory();
         var user_manager=new PropertiesUserManagerFactory().createUserManager();
@@ -48,12 +50,21 @@ public class FTPServer {
         }
 //        开始监听
         server_factory.addListener("default", listener_factory.createListener());
-        var server = server_factory.createServer();
+        server = server_factory.createServer();
+
+    }
+
+    public void start(){
         try {
             server.start();
-            System.out.println("FTP服务器已启动，监听端口..."+config.port);
         } catch (FtpException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void stop(){
+        if (!server.isStopped()){
+            server.stop();
         }
     }
 }
