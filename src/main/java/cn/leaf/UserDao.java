@@ -10,8 +10,7 @@ public class UserDao {
     private Connection conn;
     public static final String DATABASE_NAME="wavingleaf.db";
     public boolean init(){
-        String userHome = System.getProperty("user.home");
-        String dbPath = Paths.get(userHome, DATABASE_NAME).toString();
+        String dbPath = Paths.get(System.getProperty("user.home"), DATABASE_NAME).toString();
 
         // 连接 SQLite 数据库（如果文件不存在会自动创建）
         try {
@@ -38,6 +37,7 @@ public class UserDao {
         if (dao==null){
             synchronized (UserDao.class){
                 dao=new UserDao();
+                dao.init();
             }
         }
         return dao;

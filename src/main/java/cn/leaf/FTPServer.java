@@ -21,26 +21,21 @@ public class FTPServer {
     private org.apache.ftpserver.FtpServer server;
 
     public void init() {
+        var user_dao=UserDao.getInstance();
+        var config_dao=ConfigDao.getInstance();
 //        初始化ftp server
         var server_factory = new FtpServerFactory();
         var user_manager=new PropertiesUserManagerFactory().createUserManager();
         server_factory.setUserManager(user_manager);
         var listener_factory = new ListenerFactory();
-        Config config= null;
-        try {
-            config = yaml.load(new InputStreamReader(new FileInputStream("config.yaml")));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-//        加载用户数据
-        listener_factory.setPort(config.port);
+        listener_factory.setPort(config_dao.getFtpPort());
         var write_permission=new ArrayList<Authority>();
         write_permission.add(new WritePermission());
-        for(var u: config.users){
+        for(var u: user_dao.getAllUsers()){
             var user=new BaseUser();
             user.setName(u.user);
             user.setPassword(u.password);
-            user.setHomeDirectory(u.path);
+            user.setHomeDirectory(u.home);
             user.setAuthorities(u.writable?write_permission: new ArrayList<>());
             try {
                 user_manager.save(user);
