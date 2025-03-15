@@ -36,8 +36,6 @@ public class User {
         this.enable = enable;
     }
 
-
-
     public void setWritable(boolean writable) {
         this.writable = writable;
     }
@@ -50,9 +48,17 @@ public class User {
         return password;
     }
 
-
-
     public boolean isWritable() {
         return writable;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user='" + user + '\'' +
+                ", home='" + home + '\'' +
+                ", writable=" + writable +
+                ", enable=" + enable +
+                '}';
     }
 }

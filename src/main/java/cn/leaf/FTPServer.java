@@ -7,13 +7,7 @@ import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.apache.ftpserver.usermanager.impl.WritePermission;
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class FTPServer {
@@ -21,22 +15,22 @@ public class FTPServer {
     private org.apache.ftpserver.FtpServer server;
 
     public void init() {
-        var user_dao=UserDao.getInstance();
-        var config_dao=ConfigDao.getInstance();
+        var user_dao = UserDao.getInstance();
+        var config_dao = ConfigDao.getInstance();
 //        初始化ftp server
         var server_factory = new FtpServerFactory();
-        var user_manager=new PropertiesUserManagerFactory().createUserManager();
+        var user_manager = new PropertiesUserManagerFactory().createUserManager();
         server_factory.setUserManager(user_manager);
         var listener_factory = new ListenerFactory();
         listener_factory.setPort(config_dao.getFtpPort());
-        var write_permission=new ArrayList<Authority>();
+        var write_permission = new ArrayList<Authority>();
         write_permission.add(new WritePermission());
-        for(var u: user_dao.getAllUsers()){
-            var user=new BaseUser();
+        for (var u : user_dao.getAllUsers()) {
+            var user = new BaseUser();
             user.setName(u.user);
             user.setPassword(u.password);
             user.setHomeDirectory(u.home);
-            user.setAuthorities(u.writable?write_permission: new ArrayList<>());
+            user.setAuthorities(u.writable ? write_permission : new ArrayList<>());
             try {
                 user_manager.save(user);
             } catch (FtpException e) {
@@ -49,7 +43,7 @@ public class FTPServer {
 
     }
 
-    public void start(){
+    public void start() {
         try {
             server.start();
         } catch (FtpException e) {
@@ -57,9 +51,14 @@ public class FTPServer {
         }
     }
 
-    public void stop(){
-        if (!server.isStopped()){
+    public void stop() {
+        if (!server.isStopped()) {
             server.stop();
+            server = null;
         }
+    }
+
+    public boolean isRunning() {
+        return server == null ? false : !server.isStopped();
     }
 }

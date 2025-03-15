@@ -6,6 +6,8 @@ public class Nogui {
 
     private static final Scanner IN=new Scanner(System.in);
     private static final String I="1", II="2", III="3", IV="4", V="5";
+    private static FTPServer ftp_server=new FTPServer();
+    private static UserDao dao=UserDao.getInstance();
 
     public static void main(){
 //        1) 编辑用户
@@ -32,24 +34,72 @@ public class Nogui {
 //                3) 返回
 //            4) 返回
 //        3) 结束程序
-        while (true){
+        var nogui_status=true;
+        while (nogui_status){
             System.out.println("请选择操作 (输入序号数字): ");
+            System.out.println("1) 操作用户");
+            System.out.println("2) 操作功能");
+            System.out.println("3) 结束程序");
             var operation=IN.nextLine();
-            if (operation.equals(I)){
-
-            } else if (operation.equals(II)) {
-
-            } else if (operation.equals(III)){
-                exit();
-                break;
-            } else {
-                System.out.println("未知输入: " + operation+" 请重新输入操作");
+            switch (operation){
+                case I:
+                    editUsers();
+                    break;
+                case II:
+                    editPrograms();
+                    break;
+                case III:
+                    nogui_status=false;
+                    break;
+                default:
+                    System.out.println("未知输入: " + operation+" 请重新输入操作");
+            }
+        }
+        exit();
+    }
+    private static void editUsers(){
+        var edit_user=true;
+        while (edit_user){
+            System.out.println("请选择要对用户进行的操作: ");
+            System.out.println("1) 列出用户");
+            System.out.println("2) 新增用户");
+            System.out.println("3) 编辑用户");
+            System.out.println("4) 删除用户");
+            System.out.println("5) 返回");
+            var operation=IN.nextLine();
+            switch (operation){
+                case I:
+                    for (var u:dao.getAllUsers()){
+                        System.out.println(u);
+                    }
+                    break;
+                case II:
+                    addUser();
+                    break;
+                case III:
+                    editUser();
+                    break;
+                case IV:
+                    deleteUser();
+                    break;
+                case V:
+                    edit_user=false;
+                    break;
+                default:
+                    System.out.println("未知输入: " + operation+" 请重新输入操作");
             }
         }
     }
+
+    private static void addUser(){
+
+    }
+
     private static void editUser(){
-        System.out.println("请选择要对用户进行的操作: ");
-        var operation=IN.nextLine();
+
+    }
+
+    private static void deleteUser(){
 
     }
 
@@ -61,5 +111,9 @@ public class Nogui {
 
     private static void exit(){
         IN.close();
+        if (ftp_server.isRunning()){
+            ftp_server.stop();
+        }
+
     }
 }
