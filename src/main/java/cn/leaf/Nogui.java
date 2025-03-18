@@ -1,11 +1,12 @@
 package cn.leaf;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Nogui {
 
     private static final Scanner IN=new Scanner(System.in);
-    private static final String I="1", II="2", III="3", IV="4", V="5";
+    private static final String I="1", II="2", III="3", IV="4", V="5", TRUE="true", FALSE="false", YES="yes", NO="no";
     private static FTPServer ftp_server=new FTPServer();
     private static UserDao dao=UserDao.getInstance();
 
@@ -92,7 +93,27 @@ public class Nogui {
     }
 
     private static void addUser(){
-
+        System.out.println("请输入用户名：");
+        var user_name=IN.nextLine();
+        System.out.println("请输入用户主目录：");
+        var home=IN.nextLine();
+        var home_dir=new File(home);
+        if (!home_dir.isDirectory()){
+            System.err.println("目录 "+ home_dir+" 不存在");
+            return;
+        }
+        System.out.println("请授权用户是否可写：(输入1或true或yes表可写)");
+        var w=IN.nextLine().toLowerCase();
+        var writable=false;
+        if (w.equals(I)||w.equals(TRUE)||w.equals(YES)){
+            writable=true;
+        }
+        System.out.println("最后请输入用户的密码");
+        var pwd=IN.nextLine();
+        var user=new User(user_name, pwd, home, writable, true);
+        if (dao.addUser(user)){
+            System.out.println("添加用户"+user_name+"成功");
+        }
     }
 
     private static void editUser(){
@@ -103,7 +124,7 @@ public class Nogui {
 
     }
 
-    private static void editProgram(){
+    private static void editPrograms(){
         System.out.println("请选择要对程序进行的操作: ");
         var operation=IN.nextLine();
 

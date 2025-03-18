@@ -9,7 +9,7 @@ public class ConfigDao {
     private static ConfigDao dao;
     private Connection conn;
 
-    public boolean init(){
+    public boolean init() {
         String dbPath = Paths.get(System.getProperty("user.home"), DATABASE_NAME).toString();
         // 连接 SQLite 数据库（如果文件不存在会自动创建）
         try {
@@ -34,10 +34,10 @@ public class ConfigDao {
         return true;
     }
 
-    public static ConfigDao getInstance(){
-        if (dao==null){
-            synchronized (ConfigDao.class){
-                dao=new ConfigDao();
+    public static ConfigDao getInstance() {
+        synchronized (ConfigDao.class) {
+            if (dao == null) {
+                dao = new ConfigDao();
                 dao.init();
             }
         }

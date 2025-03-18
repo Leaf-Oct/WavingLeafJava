@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
-    private static UserDao dao=null;
+    private static UserDao dao = null;
     private Connection conn;
-    public static final String DATABASE_NAME="wavingleaf.db";
-    public boolean init(){
+    public static final String DATABASE_NAME = "wavingleaf.db";
+
+    public boolean init() {
         String dbPath = Paths.get(System.getProperty("user.home"), DATABASE_NAME).toString();
 
         // 连接 SQLite 数据库（如果文件不存在会自动创建）
@@ -33,10 +34,10 @@ public class UserDao {
         return true;
     }
 
-    public static UserDao getInstance(){
-        if (dao==null){
-            synchronized (UserDao.class){
-                dao=new UserDao();
+    public static UserDao getInstance() {
+        synchronized (UserDao.class) {
+            if (dao == null) {
+                dao = new UserDao();
                 dao.init();
             }
         }
@@ -100,7 +101,7 @@ public class UserDao {
         }
     }
 
-//    获取密码用于判断
+    //    获取密码用于判断
     public String getPasswordByUser(String user) {
         if (user == null || user.isEmpty()) {
             return null;
